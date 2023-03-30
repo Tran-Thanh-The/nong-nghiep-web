@@ -1,0 +1,29 @@
+{
+  "login_page": {
+    "remember_me": "Nhớ mật khẩu!",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "reset_password": "Đặt lại mật khẩu",
+    "create_new_account": "Tạo tài khoản mới",
+    "have_account": "Tôi đã có tài khoản!"
+  },
+  "home": {
+
+  },
+  "footer": {
+    "customer_service": "Chăm sóc khách hàng",
+    "about_us": "Về chúng tôi",
+    "payment_method": "Phương thức thanh toán",
+    "transportation_company": "Đơn vị vận chuyển",
+    "follow_us": "Theo dõi chúng tôi qua"
+  },
+  "header": {
+    "can_help": "Bạn có cần trợ giúp không?"
+  },
+  "product_detail": {
+
+  },
+  "product_list": {
+
+  }
+}
