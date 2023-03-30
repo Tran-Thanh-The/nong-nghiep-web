@@ -1,10 +1,23 @@
-import { Box, Button, Checkbox, Container, FormControlLabel, Grid, Link, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import Footer from '../../Share/Components/Footer/Footer'
-import Logo from '../../Share/Components/Header/Logo'
-import './Login'
+import { Box, Button, Checkbox, Container, FormControlLabel, Grid, Link, Stack, TextField, Typography } from '@mui/material';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import Footer from '../../Share/Components/Footer/Footer';
+import Logo from '../../Share/Components/Header/Logo';
+import './Login';
 
-export default function Login() {
+export default function Login({ registerMode = false }) {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleClickCreateNewAccount = () => {
+    return navigate("/register");
+  }
+
+  const handleClickHaveAccount = () => {
+    return navigate("/login");
+  }
+
   return (
     <Box sx={{minHeight: '100vh'}}>
       <Container>
@@ -13,7 +26,7 @@ export default function Login() {
             <Logo />
           </Grid>
           <Grid item sm={6} display={{ xs: "none", sm: "block" }}>
-            <Link sx={{textAlign: 'end', display: 'block'}}>Bạn có cần trợ giúp?</Link>
+            <Link sx={{textAlign: 'end', display: 'block'}}>{t('header.can_help')}</Link>
           </Grid>
         </Grid>
       </Container>
@@ -40,7 +53,7 @@ export default function Login() {
           }}
         >
           <Stack spacing={2}>
-            <Typography variant="h1" sx={{marginBottom: '20px'}}>Đăng nhập</Typography>
+            <Typography variant="h1" sx={{marginBottom: '20px'}}>{ registerMode ? t('login_page.register') : t('login_page.login')}</Typography>
             <TextField 
               placeholder='Email/User name/Phone number'
               type='email'
@@ -51,9 +64,33 @@ export default function Login() {
               type='password'
               size='small'
             />
-            <FormControlLabel control={<Checkbox defaultChecked />} label='Nhớ mật khẩu' />
-            <Button variant="contained">Đăng nhập</Button>
-            <Button variant="outlined">Đăng ký tài khoản</Button>
+            {
+              registerMode ?
+              <>
+                <TextField 
+                  placeholder='Confirm password'
+                  type='password'
+                  size='small'
+                />
+                <Button variant="contained">{t('login_page.register')}</Button>
+                <Button 
+                  variant="outlined"
+                  onClick={handleClickHaveAccount}
+                >
+                  {t('login_page.have_account')}
+                </Button>
+              </> :
+              <>
+                <FormControlLabel control={<Checkbox defaultChecked />} label={t('login_page.remember_me')} />
+                <Button variant="contained">{t('login_page.login')}</Button>
+                <Button 
+                  variant="outlined"
+                  onClick={handleClickCreateNewAccount}
+                >
+                  {t('login_page.create_new_account')}
+                </Button>
+              </>
+            }
           </Stack>
         </Grid>
         <Grid item xs={1} md={3} lg={4}></Grid>

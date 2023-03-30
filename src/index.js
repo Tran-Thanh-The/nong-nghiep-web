@@ -5,13 +5,17 @@ import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { theme } from './Share/Themes/theme';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './translations/i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <I18nextProvider i18n={i18n}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </I18nextProvider>
   </React.StrictMode>
 );
 

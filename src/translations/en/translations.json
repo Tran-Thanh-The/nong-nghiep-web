@@ -1,0 +1,29 @@
+{
+  "login_page": {
+    "remember_me": "Remember me!",
+    "login": "Login",
+    "register": "Register",
+    "reset_password": "Reset password",
+    "create_new_account": "Create new account",
+    "have_account": "I have a account!"
+  },
+  "home": {
+
+  },
+  "footer": {
+    "customer_service": "Customer service",
+    "about_us": "About us",
+    "payment_method": "Payment method",
+    "transportation_company": "Transportation company",
+    "follow_us": "Follow us"
+  },
+  "header": {
+    "can_help": "Do you need to help?"
+  },
+  "product_detail": {
+
+  },
+  "product_list": {
+
+  }
+}

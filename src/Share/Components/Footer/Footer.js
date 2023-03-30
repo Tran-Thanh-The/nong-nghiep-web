@@ -1,9 +1,10 @@
-import React from 'react'
-import { Container, Grid, Typography, Stack, Box, Link } from '@mui/material'
-import FacebookIcon from '@mui/icons-material/Facebook';
 import EmailIcon from '@mui/icons-material/Email';
+import FacebookIcon from '@mui/icons-material/Facebook';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { styled } from '@mui/system'
+import { Container, Grid, Link, Stack, Typography } from '@mui/material';
+import { styled } from '@mui/system';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const LoginTypography = styled(Typography)({
   ":hover": {
@@ -14,12 +15,14 @@ const LoginTypography = styled(Typography)({
 })
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <Container sx={{background: '#ffffff'}}>
       <Grid container sx={{padding: '30px 0'}}>
         <Grid item xs={12} sm={6} md={3}>
           <Stack spacing={1}>
-            <Typography variant='footer_label' sx={{margin: '12px 0'}}>CHĂM SÓC KHÁCH HÀNG</Typography>
+            <Typography variant='footer_label' sx={{margin: '12px 0'}}>{t('footer.customer_service')}</Typography>
             <LoginTypography variant='footer_sub_label'>Trung Tâm Trợ Giúp</LoginTypography>
             <LoginTypography variant='footer_sub_label'>Shopee Blog</LoginTypography>
             <LoginTypography variant='footer_sub_label'>Shopee Mall</LoginTypography>
@@ -35,7 +38,7 @@ export default function Footer() {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Stack spacing={1}>
-            <Typography variant='footer_label' sx={{margin: '12px 0'}}>VỀ CHÚNG TÔI</Typography>
+            <Typography variant='footer_label' sx={{margin: '12px 0'}}>{t('footer.about_us')}</Typography>
             <LoginTypography variant='footer_sub_label'>Giới Thiệu Về Shopee Việt Nam</LoginTypography>
             <LoginTypography variant='footer_sub_label'>Tuyển Dụng</LoginTypography>
             <LoginTypography variant='footer_sub_label'>Điều Khoản Shopee</LoginTypography>
@@ -46,7 +49,7 @@ export default function Footer() {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Stack>
-            <Typography variant='footer_label' sx={{margin: '12px 0'}}>PHƯƠNG THỨC THANH TOÁN</Typography>
+            <Typography variant='footer_label' sx={{margin: '12px 0'}}>{t('footer.payment_method')}</Typography>
             <div className='flex gap-4 items-center mt-2'>
               <span className='p-1 rounded' style={{boxShadow: '0 1px 1px rgba(0,0,0,.2)'}}>
                 <img src='https://down-vn.img.susercontent.com/file/d4bbea4570b93bfd5fc652ca82a262a8' alt='' />
@@ -77,7 +80,7 @@ export default function Footer() {
                 <img src='https://down-vn.img.susercontent.com/file/0217f1d345587aa0a300e69e2195c492' alt='' />
               </span>
             </div>
-            <Typography variant='footer_label' sx={{margin: '12px 0'}}>ĐƠN VỊ VẬN CHUYỂN</Typography>
+            <Typography variant='footer_label' sx={{margin: '12px 0'}}>{t('footer.transportation_company')}</Typography>
             <div className='flex gap-4 items-center mt-2'>
               <span className='p-1 rounded' style={{boxShadow: '0 1px 1px rgba(0,0,0,.2)'}}>
                 <img src='https://down-vn.img.susercontent.com/file/5e7282bd0f7ee0872fdb0bd1d40fbe9e' alt='' />
@@ -109,7 +112,7 @@ export default function Footer() {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Stack>
-            <Typography variant='footer_label' sx={{margin: '12px 0'}}>THEO DÕI CHÚNG TÔI QUA</Typography>
+            <Typography variant='footer_label' sx={{margin: '12px 0'}}>{t('footer.follow_us')}</Typography>
             <div className='flex gap-1 items-center mt-2'>
               <FacebookIcon sx={{fontSize: '18px'}} />
               <Typography variant='footer_sub_label'><Link>facebook</Link></Typography>

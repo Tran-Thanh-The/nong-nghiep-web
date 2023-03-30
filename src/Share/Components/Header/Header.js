@@ -1,13 +1,14 @@
-import { Avatar, Badge, Button, Container, Divider, Grid, IconButton, Link, ListItemIcon, Menu, MenuItem, Stack, TextField, Tooltip, Typography } from '@mui/material'
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import React, { useState } from 'react'
-import Logo from './Logo'
-import { useNavigate } from 'react-router-dom';
 import { Logout, PersonAdd, Settings } from '@mui/icons-material';
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Avatar, Badge, Button, Container, Divider, Grid, IconButton, ListItemIcon, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import Logo from './Logo';
 
 const Logined = () => {
-  const userName = 'the tran';
+  const { t } = useTranslation();
   const avatar = 'https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2021/8/15/photo-1629016090148-1629016090266456871612.jpg';
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
