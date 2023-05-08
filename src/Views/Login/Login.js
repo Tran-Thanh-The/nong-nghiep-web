@@ -1,14 +1,19 @@
 import { Box, Button, Checkbox, Container, FormControlLabel, Grid, Link, Stack, TextField, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../../Share/Components/Footer/Footer';
 import Logo from '../../Share/Components/Header/Logo';
+import { toast } from 'react-toastify';
 import './Login';
+import Swal from 'sweetalert2';
+import 'sweetalert2/src/sweetalert2.scss'
 
 export default function Login({ registerMode = false }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
   const handleClickCreateNewAccount = () => {
     return navigate("/register");
@@ -16,6 +21,20 @@ export default function Login({ registerMode = false }) {
 
   const handleClickHaveAccount = () => {
     return navigate("/login");
+  }
+
+  const handleLogin = () => {
+    if (username === "admin" && password === "admin") {
+      localStorage.setItem("nongNgiepAdmin", true);
+      toast.success("Login success!")
+      return navigate("/");
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Username or password wrong!',
+      })
+    }
   }
 
   return (
@@ -56,13 +75,18 @@ export default function Login({ registerMode = false }) {
             <Typography variant="h1" sx={{marginBottom: '20px'}}>{ registerMode ? t('login_page.register') : t('login_page.login')}</Typography>
             <TextField 
               placeholder='Email/User name/Phone number'
-              type='email'
+              type='text'
               size='small'
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <TextField 
               placeholder='Password'
               type='password'
               size='small'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             {
               registerMode ?
@@ -82,7 +106,7 @@ export default function Login({ registerMode = false }) {
               </> :
               <>
                 <FormControlLabel control={<Checkbox defaultChecked />} label={t('login_page.remember_me')} />
-                <Button variant="contained">{t('login_page.login')}</Button>
+                <Button variant="contained" onClick={handleLogin}>{t('login_page.login')}</Button>
                 <Button 
                   variant="outlined"
                   onClick={handleClickCreateNewAccount}
