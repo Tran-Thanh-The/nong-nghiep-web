@@ -1,17 +1,16 @@
 import axios from "axios";
-import { getAccessToken } from "utils/localStorage";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: "https://641c87781a68dc9e460bedf3.mockapi.io",
   timeout: 25000,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  withCredentials: false,
 });
 
 axiosInstance.interceptors.request.use((request) => {
-  const accessToken = getAccessToken();
+  const accessToken = "";
   const accessHeader = `Bearer ${accessToken}`;
   if (request.headers) { 
     request.headers["Authorization"] = accessHeader;

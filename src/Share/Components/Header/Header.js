@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Logo from './Logo';
 
 const Logined = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const avatar = 'https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2021/8/15/photo-1629016090148-1629016090266456871612.jpg';
   const [anchorEl, setAnchorEl] = useState(null);
@@ -18,6 +19,11 @@ const Logined = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("nongNgiepAdmin");
+    return navigate("/login");
+  }
 
   return (
     <Stack spacing={4} direction='row' justifyContent='flex-end' alignItems='center'>
@@ -93,7 +99,7 @@ const Logined = () => {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

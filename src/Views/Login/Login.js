@@ -27,7 +27,7 @@ export default function Login({ registerMode = false }) {
     if (username === "admin" && password === "admin") {
       localStorage.setItem("nongNgiepAdmin", true);
       toast.success("Login success!")
-      return navigate("/");
+      return navigate("/manager");
     } else {
       Swal.fire({
         icon: 'error',
