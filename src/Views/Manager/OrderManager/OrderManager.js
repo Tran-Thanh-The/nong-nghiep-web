@@ -107,7 +107,6 @@ export default function OrderManager() {
           Create order
         </Button>
         <Paper
-          component="form"
           sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
         >
           <InputBase
@@ -141,7 +140,7 @@ export default function OrderManager() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  { product.find(p => p.id == row.productId)?.name }
+                  { product.find(p => p.id === row.productId)?.name }
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <div><strong>Name:</strong> {row.name}</div>

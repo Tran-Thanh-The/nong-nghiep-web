@@ -1,7 +1,7 @@
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import { AppBar, Avatar, Box, Container, IconButton, List, ListItemButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 
@@ -13,6 +13,12 @@ export default function Manager() {
   const user = {
     name: "Admin"
   };
+
+  useEffect(() => {
+    if (!localStorage.getItem("nongNgiepAdmin")) {
+      return navigate("/login")
+    }
+  }, [navigate])
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);

@@ -1,0 +1,10 @@
+
+h2.banner-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.banner-img img {
+  width: 100%;
+}

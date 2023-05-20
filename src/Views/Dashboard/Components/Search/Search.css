@@ -1,0 +1,15 @@
+.item-search {
+  
+}
+
+.item-search:hover {
+  font-weight: 600;
+  cursor: pointer;
+  color: #1976d2;
+}
+
+.active {
+  font-weight: 600;
+  cursor: pointer;
+  color: #1976d2;
+}
