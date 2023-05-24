@@ -26,8 +26,6 @@ export default function OrderManager() {
   const [form, setForm] = useState(defaultFrom);
   const [search, setSearch] = useState("")
 
-
-
   const fetchProduct = async () => {
     try {
       const res = await axiosInstance.get("/products");
@@ -105,6 +103,12 @@ export default function OrderManager() {
     fetchOrder()
   }
 
+  const handleUpdateStatus = async (form, status) => {
+    form.status = status;
+    await axiosInstance.put(`/order/` + form.id, form);
+    fetchOrder()
+  }
+
   return (
     <div id='my-request-off'>
       <div className='header'>
@@ -148,14 +152,19 @@ export default function OrderManager() {
                 key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" sx={{ maxHeight: '30%' }}>
                   <Box sx={{
                     display: 'flex',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    columnGap: '8px'
                   }}> 
-                    <img src={products.find(p => p.id === row.productId)?.img} alt='' />
+                    <img style={{ width: '80px' }} src={products.find(p => p.id === row.productId)?.img} alt='' />
+                    <div>
+                      <p>Tên: { products.find(p => p.id === row.productId)?.name }</p>
+                      <p>Giá: { formatPrice(products.find(p => p.id === row.productId)?.price) }</p>
+                      <p>Số lượng: { row.count }</p>
+                    </div>
                   </Box>
-                  { products.find(p => p.id === row.productId)?.name }
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <div><strong>Name:</strong> {row.name}</div>
@@ -163,16 +172,22 @@ export default function OrderManager() {
                   <div><strong>Address:</strong> {row.address}</div>
                 </TableCell>
                 <TableCell align="center">{ formatPrice(row.price) }</TableCell>
-                <TableCell align="center">{row.status}</TableCell>
+                <TableCell align="center"><strong>{row.status}</strong></TableCell>
                 <TableCell >
                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+                    <Button color='success' variant='outlined' onClick={() => handleUpdateStatus(row, "Đã duyệt")}>
+                      Duyệt
+                    </Button>
+                    <Button variant='outlined' color='secondary' onClick={() => handleUpdateStatus(row, "Đã hủy")}>Hủy</Button>
+                  </Box>
+                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", marginTop: '8px' }}>
                     <Button variant='outlined' onClick={() => {
                       setForm(row);
                       setOpenForm(true);
                     }}>
-                      Edit
+                      Sửa
                     </Button>
-                    <Button variant='outlined' color='error' onClick={() => handleDeleteOrder(row.id)}>Delete</Button>
+                    <Button variant='outlined' color='error' onClick={() => handleDeleteOrder(row.id)}>Xóa</Button>
                   </Box>
                 </TableCell>
               </TableRow>
@@ -298,8 +313,9 @@ export default function OrderManager() {
                 status: e.target.value
               })}
             >
-              <MenuItem value="pending">pending</MenuItem>
-              <MenuItem value="approved">approved</MenuItem>
+              <MenuItem value="Chờ">Chờ</MenuItem>
+              <MenuItem value="Đã duyệt">Đã duyệt</MenuItem>
+              <MenuItem value="Đã hủy">Đã hủy</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>
