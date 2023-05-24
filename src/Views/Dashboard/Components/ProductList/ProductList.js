@@ -5,6 +5,7 @@ import './ProductList.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../../../Redux/Slice/CartSlice'
 import { useNavigate } from 'react-router-dom';
+import { formatPrice } from '../../../../utils/utils';
 
 export default function ProductList() {
   let navigate = useNavigate();
@@ -40,6 +41,7 @@ export default function ProductList() {
       console.log(newProducts)
       setProducts(newProducts)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchState.thapCao, searchState.caoThap])
 
   return (
@@ -58,12 +60,12 @@ export default function ProductList() {
             })
             .filter((p, i) => (page - 1)*12 <= i && i < page*12).map((product) => (
               <Grid key={ product.id } item sm={4} xs={12} md={3}>
-                <Card className='product-item' sx={{ width: '100%', height: '360px' }}>
+                <Card className='product-item' sx={{ width: '100%', height: '390px' }}>
                   <img src={product.img} alt='' />
                   <div className='product-item-info'>
-                    <h3>{product.name}</h3>
-                    <span>{product.price} vnd</span>
-                    <p>{product.des}</p>
+                    <h3 className='limit-2line'>{ product.name }</h3>
+                    <span>{ formatPrice(product.price) }</span>
+                    <p className='limit-2line'>{ product.des }</p>
                     <div className='product-action'>
                       <Button size="small" variant='outlined' onClick={() => navigate('/product/' + product.id)}>
                         Show detail

@@ -1,12 +1,12 @@
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Badge, Box, Button, Container, Drawer, Grid, Stack } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { removeCart } from '../../../Redux/Slice/CartSlice';
 import './Header.css';
 import Logo from './Logo';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeCart } from '../../../Redux/Slice/CartSlice';
+import { formatPrice } from '../../../utils/utils';
 
 const Logined = () => {
   const dispatch = useDispatch();
@@ -42,10 +42,10 @@ const Logined = () => {
                 <div key={ product.id } className='cart'>
                   <img src={ product.img } alt='' />
                   <div className='cart-detail'>
-                    <div>{ product.name }</div>
-                    <p>{ product.des }</p>
+                    <div className='limit-1line'>{ product.name }</div>
+                    <p className='limit-2line'>{ product.des }</p>
                   </div>
-                  <span>{ product.price } vnd</span>
+                  <span>{ formatPrice(product.price) }</span>
                   <div className='cart-action'>
                     <div className='cart-action-pay'>
                       <a href={'/order/' + product.id}>Đặt hàng</a>

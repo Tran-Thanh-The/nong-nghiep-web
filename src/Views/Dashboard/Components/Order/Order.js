@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../../../Api/api';
 import { useDispatch } from 'react-redux';
 import { removeCart } from '../../../../Redux/Slice/CartSlice';
+import { formatPrice } from '../../../../utils/utils';
 
 export default function Order() {
   let navigate = useNavigate();
@@ -42,6 +43,7 @@ export default function Order() {
 
   useEffect(() => {
     fetchProduct()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleCreateOrder = () => {
@@ -72,7 +74,8 @@ export default function Order() {
       <Box  
         sx={{
           display: 'flex',
-          paddingTop: '24px'
+          paddingTop: '24px',
+          columnGap: '18px'
         }}
       >
         <Box
@@ -92,12 +95,12 @@ export default function Order() {
             <div style={{ flex: '2' }}>
               <h3 style={{ fontSize: '18px', fontWeight: '600' }}>{ product.name }</h3>
               <p style={{ padding: '8px 0' }}><strong>Mô tả:</strong> { product.des }</p>
-              <strong>Giá:</strong><span style={{ color: '#1976d2', fontWeight: '500' }}> { product.price } vnd</span>
+              <strong>Giá:</strong><span style={{ color: '#1976d2', fontWeight: '500' }}> { formatPrice(product.price) }</span>
               <br />
               <br />
               <strong>Số lượng:</strong><span style={{ color: '#1976d2', fontWeight: '500' }}> { count } (cái)</span>
               <br />
-              <strong>Tổng giá:</strong><span style={{ color: '#1976d2', fontWeight: '500' }}> { count * parseInt(product.price) } vnd</span>
+              <strong>Tổng giá:</strong><span style={{ color: '#1976d2', fontWeight: '500' }}> { formatPrice(count * parseInt(product.price)) }</span>
             </div>
           </Box>
         </Box>

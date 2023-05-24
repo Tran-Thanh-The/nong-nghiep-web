@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import axiosInstance from '../../../Api/api';
 import "../ProductManager/ProductManager.scss";
+import { formatPrice } from '../../../utils/utils';
 
 const defaultFrom = {
   id: null,
@@ -18,10 +19,10 @@ const defaultFrom = {
 }
 
 export default function OrderManager() {
-  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   const [data, setData] = useState([]);
-  const [product, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
   const [form, setForm] = useState(defaultFrom);
   const [search, setSearch] = useState("")
 
@@ -31,7 +32,7 @@ export default function OrderManager() {
     try {
       const res = await axiosInstance.get("/products");
       if (res) {
-        setProduct(res.data)
+        setProducts(res.data)
       }
     } catch (error) {
       throw (error)
@@ -40,6 +41,7 @@ export default function OrderManager() {
 
   const fetchOrder = async () => {
     try {
+      setIsLoading(true)
       const res = await axiosInstance.get("/order");
       if (res) {
         setData(res.data.filter(e => {
@@ -48,7 +50,9 @@ export default function OrderManager() {
             e.address.toLowerCase().includes(search)
         }))
       }
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
       throw (error)
     }
   }
@@ -59,9 +63,11 @@ export default function OrderManager() {
 
   useEffect(() => {
     fetchOrder()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search])
 
   const handleDeleteOrder = async (id) => {
+    setIsLoading(true)
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -74,6 +80,7 @@ export default function OrderManager() {
       if (result.value) {
         await axiosInstance.delete(`/order/` + id);
         fetchOrder()
+        setIsLoading(false)
         toast.success("Delete success")
       }
     });
@@ -85,6 +92,7 @@ export default function OrderManager() {
   }
 
   const handleCreate = async () => {
+    setIsLoading(true)
     setOpenForm(false)
     if (form.id) {
       await axiosInstance.put(`/order/` + form.id, form);
@@ -93,6 +101,7 @@ export default function OrderManager() {
     }
     toast.success("Create success")
     setForm(defaultFrom);
+    setIsLoading(false)
     fetchOrder()
   }
 
@@ -140,14 +149,20 @@ export default function OrderManager() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  { product.find(p => p.id === row.productId)?.name }
+                  <Box sx={{
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}> 
+                    <img src={products.find(p => p.id === row.productId)?.img} alt='' />
+                  </Box>
+                  { products.find(p => p.id === row.productId)?.name }
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <div><strong>Name:</strong> {row.name}</div>
                   <div><strong>Phone:</strong> {row.phone}</div>
                   <div><strong>Address:</strong> {row.address}</div>
                 </TableCell>
-                <TableCell align="center">{row.price}</TableCell>
+                <TableCell align="center">{ formatPrice(row.price) }</TableCell>
                 <TableCell align="center">{row.status}</TableCell>
                 <TableCell >
                   <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
@@ -174,7 +189,7 @@ export default function OrderManager() {
             minWidth: '500px'
           }}
         >
-          Create or edit product
+          Create or edit products
         </DialogTitle>
         <DialogContent sx={{ padding: "16px 20px"}}>
           <FormControl fullWidth>
@@ -190,7 +205,7 @@ export default function OrderManager() {
               })}
             >
               {
-                product.map(e => 
+                products.map(e => 
                   <MenuItem value={e.id}>{e.name}</MenuItem>
                 )
               }
@@ -311,8 +326,7 @@ export default function OrderManager() {
       </Dialog>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-        onClick={() => setOpen(false)}
+        open={isLoading}
       >
         <CircularProgress color="inherit" />
       </Backdrop>

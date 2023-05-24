@@ -1,19 +1,12 @@
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
-import { Backdrop, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
+import { Backdrop, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, InputBase, Paper, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import axiosInstance from '../../../Api/api';
 import "./ProductManager.scss";
-
-// const defaultFrom = {
-//   id: null,
-//   name: "Xẻng gỗ",
-//   des: "Vật dụng dùng để xúc đất",
-//   price: 200000,
-//   img: "https://kichthuoc.net/wp-content/uploads/2022/04/xeng.jpg"
-// }
+import { formatPrice } from '../../../utils/utils';
 
 const defaultFrom = {
   id: null,
@@ -24,26 +17,30 @@ const defaultFrom = {
 }
 
 export default function ProductManager() {
-  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   const [data, setData] = useState([]);
   const [form, setForm] = useState(defaultFrom);
   const [search, setSearch] = useState("")
 
-  const handle = async () => {
+  const fetchProducts = async () => {
     try {
+      setIsLoading(true)
       const res = await axiosInstance.get("/products");
       if (res) {
         console.log(res.data)
         setData(res.data.filter(e => e.name.toLowerCase().includes(search)))
       }
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
       throw (error)
     }
   }
 
   useEffect(() => {
-    handle()
+    fetchProducts()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search])
 
   const handleDeleteProduct = async (id) => {
@@ -58,7 +55,7 @@ export default function ProductManager() {
     }).then(async (result) => {
       if (result.value) {
         await axiosInstance.delete(`/products/` + id);
-        handle()
+        fetchProducts()
         toast.success("Delete success")
       }
     });
@@ -70,6 +67,7 @@ export default function ProductManager() {
   }
 
   const handleCreate = async () => {
+    setIsLoading(true)
     setOpenForm(false)
     if (form.id) {
       await axiosInstance.put(`/products/` + form.id, form);
@@ -78,6 +76,8 @@ export default function ProductManager() {
     }
     toast.success("Create success")
     setForm(defaultFrom);
+    setIsLoading(false)
+    fetchProducts()
   }
 
   return (
@@ -127,18 +127,22 @@ export default function ProductManager() {
                   <img width="40" src={row.img} alt='' />
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  <p className='limit-3line'>{row.name}</p>
                 </TableCell>
-                <TableCell align="center">{row.price}</TableCell>
-                <TableCell align="center">{row.des}</TableCell>
-                <TableCell sx={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                  <Button variant='outlined' onClick={() => {
-                    setForm(row);
-                    setOpenForm(true);
-                  }}>
-                    Edit
-                  </Button>
-                  <Button variant='outlined' color='error' onClick={() => handleDeleteProduct(row.id)}>Delete</Button>
+                <TableCell align="center">{ formatPrice(row.price) }</TableCell>
+                <TableCell align="center">
+                  <p className='limit-2line'>{row.des}</p>
+                </TableCell>
+                <TableCell sx={{  minWidth: 200 }}>
+                  <Stack spacing={2}>
+                    <Button variant='outlined' onClick={() => {
+                      setForm(row);
+                      setOpenForm(true);
+                    }}>
+                      Edit
+                    </Button>
+                    <Button variant='outlined' color='error' onClick={() => handleDeleteProduct(row.id)}>Delete</Button>
+                  </Stack>
                 </TableCell>
               </TableRow>
             ))}
@@ -241,8 +245,7 @@ export default function ProductManager() {
       </Dialog>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-        onClick={() => setOpen(false)}
+        open={isLoading}
       >
         <CircularProgress color="inherit" />
       </Backdrop>

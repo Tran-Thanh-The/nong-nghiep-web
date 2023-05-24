@@ -5,6 +5,7 @@ import './ProductDetail.css'
 import axiosInstance from '../../../../Api/api';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../../Redux/Slice/CartSlice';
+import { formatPrice } from '../../../../utils/utils';
 
 export default function ProductDetail() {
   let navigate = useNavigate();
@@ -25,6 +26,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     fetchProduct()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -57,7 +59,7 @@ export default function ProductDetail() {
         >
           <h3 style={{ fontSize: '18px', fontWeight: '600' }}>{ product.name }</h3>
           <p style={{ padding: '8px 0' }}><strong>Mô tả:</strong> { product.des }</p>
-          <strong>Giá:</strong><span style={{ color: '#1976d2', fontWeight: '500' }}> { product.price } vnd</span>
+          <strong>Giá:</strong><span style={{ color: '#1976d2', fontWeight: '500' }}> { formatPrice(product.price | 0) }</span>
           <br />  
           <div style={{ padding: '16px 0' }}>
             <Button variant='outlined' onClick={() => dispatch(addToCart(product))}>Thêm vào giỏ hàng</Button>

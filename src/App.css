@@ -1,0 +1,23 @@
+.limit-2line {
+  overflow: hidden !important;
+   display: -webkit-box !important;
+   -webkit-line-clamp: 2 !important; /* number of lines to show */
+           line-clamp: 2 !important; 
+   -webkit-box-orient: vertical !important;
+}
+
+.limit-3line {
+  overflow: hidden !important;
+   display: -webkit-box !important;
+   -webkit-line-clamp: 3 !important; /* number of lines to show */
+           line-clamp: 3 !important; 
+   -webkit-box-orient: vertical !important;
+}
+
+.limit-1line {
+  overflow: hidden !important;
+   display: -webkit-box !important;
+   -webkit-line-clamp: 1 !important; /* number of lines to show */
+           line-clamp: 1 !important; 
+   -webkit-box-orient: vertical !important;
+}
