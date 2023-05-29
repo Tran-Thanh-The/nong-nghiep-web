@@ -42,7 +42,8 @@ export default function ProductDetail() {
       <Box  
         sx={{
           display: 'flex',
-          paddingTop: '24px'
+          paddingTop: '24px',
+          columnGap: '12px'
         }}
       >
         <Box
